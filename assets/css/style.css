@@ -1,0 +1,189 @@
+/* Quantum Collective - Hacker Theme (green on black) */
+:root {
+  --bg: #0b0f10;
+  --bg-elev: #0f1416;
+  --text: #d8ffe4;
+  --muted: #8dd4a8;
+  --accent: #00ff88;
+  --accent-2: #39ff14;
+  --danger: #ff3b3b;
+  --shadow: rgba(0, 255, 136, 0.08);
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: radial-gradient(1200px 800px at 20% 0%, #0f1618 0%, var(--bg) 60%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  padding: 1.2rem 0 3rem;
+  flex: 1;
+}
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 15, 16, 0.95) 0%,
+    rgba(11, 15, 16, 0.85) 100%
+  );
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #163126;
+  box-shadow: 0 10px 40px var(--shadow);
+}
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.9rem 0;
+}
+.brand .logo {
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.brand h1 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+.brand .handle {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.nav a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+.nav a:hover {
+  color: var(--text);
+  border-color: #234733;
+  background: #0c1312;
+}
+.nav a.active {
+  color: var(--accent);
+  border-color: #2a6b4a;
+  background: #0c1512;
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid #163126;
+  background: #0a0f10;
+  color: var(--muted);
+  padding: 1rem 0;
+  text-align: center;
+}
+
+/* Hero / cards */
+.hero {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+.hero h2 {
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+.hero p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.card {
+  background: linear-gradient(180deg, #0f1618, #0b1010);
+  border: 1px solid #163126;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 8px 30px var(--shadow);
+}
+.card h3 {
+  margin-top: 0;
+  color: var(--accent-2);
+}
+.card p {
+  color: var(--muted);
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+.grid.projects {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid #2a6b4a;
+  border-radius: 6px;
+  color: var(--accent);
+  background: #0b1311;
+  font-size: 0.8rem;
+}
+
+/* Forms */
+input,
+textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #1f3a2e;
+  background: #0b1111;
+  color: var(--text);
+}
+label {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+button {
+  background: #0b1412;
+  color: var(--accent);
+  border: 1px solid #2a6b4a;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  background: #0f1a16;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Collective</title>
+    <meta
+      name="description"
+      content="Quantum Collective — A one-member hacker group led by QuantumByte."
+    />
+
+    <!-- Hacker theme stylesheet -->
+    <link rel="stylesheet" href="./assets/css/style.css" />
+
+    <!-- Vue 3 (Global Build) & Vue Router via CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.prod.js"></script>
+  </head>
+  <body>
+    <noscript>Enable JavaScript to view this site.</noscript>
+
+    <div id="app">
+      <header class="site-header">
+        <div class="brand">
+          <span class="logo">{QC}</span>
+          <h1>Quantum Collective</h1>
+          <span class="handle">by @QuantumByte</span>
+        </div>
+        <nav class="nav">
+          <a href="#!/" :class="{ active: $route.path === '/' }">Home</a>
+          <a href="#!/about" :class="{ active: $route.path === '/about' }"
+            >About</a
+          >
+          <a href="#!/projects" :class="{ active: $route.path === '/projects' }"
+            >Projects</a
+          >
+          <a href="#!/signals" :class="{ active: $route.path === '/signals' }"
+            >Signals</a
+          >
+          <a href="#!/logs" :class="{ active: $route.path === '/logs' }"
+            >Logs</a
+          >
+        </nav>
+      </header>
+
+      <main class="container">
+        <router-view></router-view>
+      </main>
+
+      <footer class="site-footer">
+        <span
+          >© <span id="year"></span> Quantum Collective • Operated by
+          QuantumByte</span
+        >
+      </footer>
+    </div>
+
+    <!-- App scripts -->
+    <script type="module" src="./assets/js/main.js"></script>
+    <script>
+      // Set year without build tools
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

@@ -165,3 +165,10 @@ const router = createRouter({
 const app = createApp({});
 app.use(router);
 app.mount("#app");
+
+// Register a simple service worker for offline caching
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js");
+  });
+}

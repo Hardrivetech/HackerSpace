@@ -162,9 +162,42 @@ const router = createRouter({
   routes,
 });
 
-const app = createApp({});
-app.use(router);
-app.mount("#app");
+// Root component to enable reactive nav + layout
+const Root = {
+  data() {
+    return { year: new Date().getFullYear() };
+  },
+  template: `
+    <div>
+      <header class="site-header">
+        <div class="container">
+          <div class="brand">
+            <span class="logo">{QC}</span>
+            <h1>Quantum Collective</h1>
+            <span class="handle">by @QuantumByte</span>
+          </div>
+          <nav class="nav">
+            <router-link to="/" exact-active-class="active">Home</router-link>
+            <router-link to="/about" exact-active-class="active">About</router-link>
+            <router-link to="/projects" exact-active-class="active">Projects</router-link>
+            <router-link to="/signals" exact-active-class="active">Signals</router-link>
+            <router-link to="/logs" exact-active-class="active">Logs</router-link>
+          </nav>
+        </div>
+      </header>
+
+      <main id="main" class="container">
+        <router-view></router-view>
+      </main>
+
+      <footer class="site-footer">
+        <span>© {{ year }} Quantum Collective • Operated by QuantumByte</span>
+      </footer>
+    </div>
+  `,
+};
+
+createApp(Root).use(router).mount("#app");
 
 // Register a simple service worker for offline caching
 if ("serviceWorker" in navigator) {

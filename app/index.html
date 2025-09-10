@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quantum Collective</title>
+    <meta
+      name="description"
+      content="Quantum Collective — A one-member hacker group led by QuantumByte."
+    />
+
+    <!-- Security headers (meta) for static hosting -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    />
+
+    <link rel="canonical" href="https://hardrivetech.github.io/" />
+
+    <!-- PWA + icons copied from public/ -->
+    <link rel="manifest" href="/HackerSpace/manifest.webmanifest" />
+    <meta name="theme-color" content="#00ff88" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/HackerSpace/assets/icons/icon-192.svg"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Quantum Collective" />
+    <meta
+      property="og:description"
+      content="A one-member hacker group led by QuantumByte."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:url"
+      content="https://hardrivetech.github.io/HackerSpace/"
+    />
+    <meta
+      property="og:image"
+      content="/HackerSpace/assets/icons/og-image.svg"
+    />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Quantum Collective" />
+    <meta
+      name="twitter:description"
+      content="A one-member hacker group led by QuantumByte."
+    />
+    <meta
+      name="twitter:image"
+      content="/HackerSpace/assets/icons/og-image.svg"
+    />
+
+    <!-- Referrer policy -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- iOS PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/HackerSpace/assets/icons/icon-192.svg"
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <noscript>Enable JavaScript to view this site.</noscript>
+
+    <div id="app"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

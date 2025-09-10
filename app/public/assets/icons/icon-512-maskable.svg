@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Maskable icon with safe area -->
+  <rect width="512" height="512" fill="#0b0f10"/>
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="#0f1416" stroke="#163126"/>
+  <text x="50%" y="56%" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace" font-weight="800" font-size="170" fill="#00ff88">{QC}</text>
+</svg>

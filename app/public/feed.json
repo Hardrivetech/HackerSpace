@@ -1,0 +1,26 @@
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "Quantum Collective — Signals",
+  "home_page_url": "https://hardrivetech.github.io/",
+  "feed_url": "https://hardrivetech.github.io/feed.json",
+  "items": [
+    {
+      "id": "2025-09-09-deploy",
+      "url": "https://hardrivetech.github.io/#/signals",
+      "title": "Deployed Vue hash-router site to GitHub Pages.",
+      "date_published": "2025-09-09T00:00:00Z"
+    },
+    {
+      "id": "2025-09-07-sdr",
+      "url": "https://hardrivetech.github.io/#/signals",
+      "title": "Prototyped SDR fuzzing harness.",
+      "date_published": "2025-09-07T00:00:00Z"
+    },
+    {
+      "id": "2025-09-01-recon",
+      "url": "https://hardrivetech.github.io/#/signals",
+      "title": "Released Recon Toolkit alpha.",
+      "date_published": "2025-09-01T00:00:00Z"
+    }
+  ]
+}

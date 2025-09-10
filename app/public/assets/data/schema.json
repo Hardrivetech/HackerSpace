@@ -1,0 +1,8 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "QuantumByte",
+  "url": "https://hardrivetech.github.io/",
+  "description": "A one-member hacker group exploring systems, signals, and security.",
+  "sameAs": ["https://github.com/hardrivetech"]
+}

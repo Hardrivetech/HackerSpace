@@ -155,12 +155,69 @@ const Logs = {
   `,
 };
 
+// Simple client-side search over Signals (from feed.json)
+const Search = {
+  data: () => ({
+    q: "",
+    items: [],
+    loading: false,
+    error: null,
+  }),
+  computed: {
+    results() {
+      const q = this.q.trim().toLowerCase();
+      if (!q) return [];
+      return this.items.filter(
+        (it) =>
+          (it.title || "").toLowerCase().includes(q) ||
+          (it.id || "").toLowerCase().includes(q)
+      );
+    },
+  },
+  async mounted() {
+    this.loading = true;
+    try {
+      const res = await fetch("./feed.json");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      this.items = (data.items || []).map((it) => ({
+        id: it.id,
+        title: it.title,
+      }));
+    } catch (e) {
+      this.error = e.message;
+    } finally {
+      this.loading = false;
+    }
+  },
+  template: `
+    <section>
+      <h3 class="sr">Search</h3>
+      <div class="card" style="margin-bottom:1rem;">
+        <label for="q">Search Signals</label>
+        <input id="q" v-model="q" placeholder="Type to search..." autocomplete="off" />
+      </div>
+      <div v-if="loading" class="card"><p>Indexing feed…</p></div>
+      <div v-else-if="error" class="card"><p style=\"color: var(--danger);\">{{ error }}</p></div>
+      <div v-else>
+        <div class="grid projects">
+          <article class="card" v-for="r in results" :key="r.id">
+            <h4><router-link :to="{ name: 'signal', params: { slug: r.id } }">{{ r.title }}</router-link></h4>
+            <p class="muted">#{{ r.id }}</p>
+          </article>
+        </div>
+        <div v-if="q && results.length === 0" class="card"><p>No results.</p></div>
+      </div>
+    </section>
+  `,
+};
+
 const NotFound = {
   template: `
     <section class="grid" style="gap:1rem; grid-template-columns: 1fr; max-width:720px;">
       <div class="card">
         <h3>404 — Not Found</h3>
-        <p>The page you requested does not exist. Return to <a href="#!/">Home</a>.</p>
+        <p>The page you requested does not exist. Return to <a href="#/">Home</a>.</p>
       </div>
     </section>
   `,
@@ -245,6 +302,7 @@ const routes = [
     props: true,
   },
   { path: "/logs", component: Logs },
+  { path: "/search", component: Search },
   { path: "/:pathMatch(.*)*", component: NotFound },
 ];
 
@@ -273,6 +331,7 @@ const Root = {
             <router-link to="/projects" exact-active-class="active">Projects</router-link>
             <router-link to="/signals" exact-active-class="active">Signals</router-link>
             <router-link to="/logs" exact-active-class="active">Logs</router-link>
+            <router-link to="/search" exact-active-class="active">Search</router-link>
           </nav>
         </div>
       </header>
@@ -290,9 +349,53 @@ const Root = {
 
 createApp(Root).use(router).mount("#app");
 
-// Register a simple service worker for offline caching
+// Register service worker with update prompt
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js");
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then((reg) => {
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
+
+        function showUpdateBanner(registration) {
+          const waiting = registration.waiting;
+          if (!waiting) return;
+          const bar = document.createElement("div");
+          bar.setAttribute("role", "status");
+          bar.style.cssText =
+            "position:fixed;bottom:0;left:0;right:0;background:#0b1412;color:#00ff88;border-top:1px solid #2a6b4a;padding:8px 12px;display:flex;gap:8px;justify-content:center;align-items:center;z-index:9999;";
+          bar.innerHTML = "<span>New version available.</span>";
+          const btn = document.createElement("button");
+          btn.textContent = "Refresh to update";
+          btn.style.cssText =
+            "background:#0b1412;color:#00ff88;border:1px solid #2a6b4a;padding:6px 10px;border-radius:6px;cursor:pointer;";
+          btn.addEventListener("click", () => {
+            waiting.postMessage({ type: "SKIP_WAITING" });
+          });
+          bar.appendChild(btn);
+          document.body.appendChild(bar);
+        }
+
+        if (reg.waiting) showUpdateBanner(reg);
+        reg.addEventListener("updatefound", () => {
+          const newWorker = reg.installing;
+          if (newWorker) {
+            newWorker.addEventListener("statechange", () => {
+              if (
+                newWorker.state === "installed" &&
+                navigator.serviceWorker.controller
+              ) {
+                showUpdateBanner(reg);
+              }
+            });
+          }
+        });
+      })
+      .catch((err) => console.error("SW registration failed", err));
   });
 }

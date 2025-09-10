@@ -65,16 +65,78 @@ const Projects = {
         slug: "recon-toolkit",
         name: "Recon Toolkit",
         tags: ["osint", "cli", "security"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "CLI utilities for quick OSINT checks and endpoint probing.",
       },
       {
         slug: "signal-jam",
         name: "Signal Jam",
         tags: ["sdr", "rf", "fuzzing"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Experiments with SDR and protocol fuzzing in a sandbox.",
       },
       {
         slug: "greenroom",
         name: "GreenRoom",
         tags: ["ui", "terminal", "components"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Terminal-first UI components for web dashboards.",
+      },
+      {
+        slug: "payload-studio",
+        name: "Payload Studio",
+        tags: ["websec", "cli"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Payload crafting/mutation toolkit with safe harness.",
+      },
+      {
+        slug: "sentinel-waf-lab",
+        name: "Sentinel WAF Lab",
+        tags: ["waf", "docker"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Reproducible WAF rule testing + replays and reports.",
+      },
+      {
+        slug: "tracescope",
+        name: "TraceScope",
+        tags: ["osint", "discovery"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Unified passive asset discovery with graph export.",
+      },
+      {
+        slug: "graph-hunter",
+        name: "Graph Hunter",
+        tags: ["osint", "graphs"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Entity/relationship explorer with link scoring.",
+      },
+      {
+        slug: "airscout",
+        name: "AirScout",
+        tags: ["sdr", "scan"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Passive wideband scanning, recording, demod.",
+      },
+      {
+        slug: "signal-forge",
+        name: "Signal Forge",
+        tags: ["sdr", "iq"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Offline IQ analysis and modular demod pipelines.",
+      },
+      {
+        slug: "ghostline",
+        name: "Ghostline",
+        tags: ["privacy", "metadata"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Metadata scrubbing and encrypted bundles.",
+      },
+      {
+        slug: "opsrunner",
+        name: "OpsRunner",
+        tags: ["automation", "runbooks"],
+        icon: "./assets/icons/icon-192.svg",
+        desc: "Declarative runbooks with vars, retries, secrets.",
       },
     ],
   }),
@@ -83,9 +145,11 @@ const Projects = {
       <h3 class="sr">Projects</h3>
       <div class="grid projects">
         <article class="card" v-for="p in projects" :key="p.slug">
-          <h4>
+          <h4 style="display:flex;align-items:center;gap:.5rem;">
+            <img v-if="p.icon" :src="p.icon" alt="" width="24" height="24" />
             <router-link :to="{ name: 'project', params: { slug: p.slug } }">{{ p.name }}</router-link>
           </h4>
+          <p style="color: var(--muted); margin:.2rem 0 .6rem;">{{ p.desc }}</p>
           <p>
             <span class="badge" v-for="t in p.tags" :key="t" style="margin-right:.4rem">#{{ t }}</span>
           </p>

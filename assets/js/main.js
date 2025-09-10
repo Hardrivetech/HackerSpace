@@ -61,17 +61,31 @@ const About = {
 const Projects = {
   data: () => ({
     projects: [
-      { name: "Recon Toolkit", tags: ["osint", "cli", "security"] },
-      { name: "Signal Jam", tags: ["sdr", "rf", "fuzzing"] },
-      { name: "GreenRoom", tags: ["ui", "terminal", "components"] },
+      {
+        slug: "recon-toolkit",
+        name: "Recon Toolkit",
+        tags: ["osint", "cli", "security"],
+      },
+      {
+        slug: "signal-jam",
+        name: "Signal Jam",
+        tags: ["sdr", "rf", "fuzzing"],
+      },
+      {
+        slug: "greenroom",
+        name: "GreenRoom",
+        tags: ["ui", "terminal", "components"],
+      },
     ],
   }),
   template: `
     <section>
       <h3 class="sr">Projects</h3>
       <div class="grid projects">
-        <article class="card" v-for="p in projects" :key="p.name">
-          <h4>{{ p.name }}</h4>
+        <article class="card" v-for="p in projects" :key="p.slug">
+          <h4>
+            <router-link :to="{ name: 'project', params: { slug: p.slug } }">{{ p.name }}</router-link>
+          </h4>
           <p>
             <span class="badge" v-for="t in p.tags" :key="t" style="margin-right:.4rem">#{{ t }}</span>
           </p>
@@ -85,16 +99,19 @@ const Signals = {
   data: () => ({
     signals: [
       {
+        slug: "2025-09-09-deploy",
         date: "2025-09-09",
         text: "Deployed Vue hash-router site to GitHub Pages.",
         tags: ["deploy", "vue"],
       },
       {
+        slug: "2025-09-07-sdr",
         date: "2025-09-07",
         text: "Prototyped SDR fuzzing harness.",
         tags: ["sdr", "rf"],
       },
       {
+        slug: "2025-09-01-recon",
         date: "2025-09-01",
         text: "Released Recon Toolkit alpha.",
         tags: ["osint", "cli"],
@@ -105,8 +122,10 @@ const Signals = {
     <section>
       <h3 class="sr">Signals</h3>
       <div class="grid projects">
-        <article class="card" v-for="s in signals" :key="s.date + s.text">
-          <h4>{{ s.date }}</h4>
+        <article class="card" v-for="s in signals" :key="s.slug">
+          <h4>
+            <router-link :to="{ name: 'signal', params: { slug: s.slug } }">{{ s.date }}</router-link>
+          </h4>
           <p>{{ s.text }}</p>
           <p>
             <span class="badge" v-for="t in s.tags" :key="t" style="margin-right:.4rem">#{{ t }}</span>
@@ -148,11 +167,83 @@ const NotFound = {
 };
 
 // Router using hash mode for GitHub Pages compatibility
+// Markdown detail loaders
+const MarkdownView = {
+  props: ["src"],
+  data: () => ({ html: "", error: null, loading: true }),
+  mounted() {
+    this.fetchMd();
+  },
+  watch: {
+    src() {
+      this.fetchMd();
+    },
+  },
+  methods: {
+    async fetchMd() {
+      this.loading = true;
+      this.error = null;
+      this.html = "";
+      try {
+        const res = await fetch(this.src);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const md = await res.text();
+        this.html = marked.parse(md);
+      } catch (e) {
+        this.error = `Failed to load markdown: ${e.message}`;
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+  template: `
+    <section>
+      <div v-if="loading" class="card"><p>Loading...</p></div>
+      <div v-else-if="error" class="card"><p style="color: var(--danger);">{{ error }}</p></div>
+      <article v-else class="card" v-html="html"></article>
+    </section>
+  `,
+};
+
+const ProjectDetail = {
+  props: ["slug"],
+  computed: {
+    src() {
+      return `./content/projects/${this.slug}.md`;
+    },
+  },
+  template: `<MarkdownView :src="src" />`,
+  components: { MarkdownView },
+};
+
+const SignalDetail = {
+  props: ["slug"],
+  computed: {
+    src() {
+      return `./content/signals/${this.slug}.md`;
+    },
+  },
+  template: `<MarkdownView :src="src" />`,
+  components: { MarkdownView },
+};
+
 const routes = [
   { path: "/", component: Home },
   { path: "/about", component: About },
   { path: "/projects", component: Projects },
+  {
+    path: "/projects/:slug",
+    name: "project",
+    component: ProjectDetail,
+    props: true,
+  },
   { path: "/signals", component: Signals },
+  {
+    path: "/signals/:slug",
+    name: "signal",
+    component: SignalDetail,
+    props: true,
+  },
   { path: "/logs", component: Logs },
   { path: "/:pathMatch(.*)*", component: NotFound },
 ];

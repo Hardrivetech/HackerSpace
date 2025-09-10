@@ -19,7 +19,7 @@
     <!-- Security headers (meta) -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+      content="default-src 'self'; script-src 'self' 'sha256-rx8sO11Qz7yf2mdTWq2FvVRHE4ixZlo7fTI02S6os4E=' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
     />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta
@@ -52,13 +52,16 @@
     <link rel="icon" type="image/svg+xml" href="./assets/icons/icon-192.svg" />
 
     <!-- Structured Data -->
-    <link
-      rel="preload"
-      as="fetch"
-      href="./assets/data/schema.json"
-      crossorigin
-    />
-    <script type="application/ld+json" src="./assets/data/schema.json"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "QuantumByte",
+        "url": "https://hardrivetech.github.io/",
+        "description": "A one-member hacker group exploring systems, signals, and security.",
+        "sameAs": ["https://github.com/hardrivetech"]
+      }
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:title" content="Quantum Collective" />

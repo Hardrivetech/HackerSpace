@@ -15,7 +15,7 @@
 
   // Configuration
   const config = {
-    siteId: '3', // Replace with actual site ID from VeloWeb dashboard
+    siteId: 'YOUR_SITE_ID', // Replace with actual site ID from VeloWeb dashboard
     apiEndpoint: 'https://veloweb.pages.dev/api', // Replace with your actual domain
     collectPerformance: true,
     collectAnalytics: true,
@@ -23,7 +23,19 @@
   };
 
   // Only run if not already loaded and sample rate allows
-  if (window.veloWebTracker || Math.random() > config.sampleRate) {
+  function getSecureRandom() {
+    if (window.crypto && window.crypto.getRandomValues) {
+      // Use cryptographically secure random number generator
+      const array = new Uint32Array(1);
+      window.crypto.getRandomValues(array);
+      return array[0] / (0xFFFFFFFF + 1); // Convert to float between 0 and 1
+    } else {
+      // Fallback to Math.random() for older browsers
+      return Math.random();
+    }
+  }
+
+  if (window.veloWebTracker || getSecureRandom() > config.sampleRate) {
     return;
   }
 
@@ -38,7 +50,13 @@
 
     // Generate unique session ID
     generateSessionId: function() {
-      return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+      if (window.crypto && window.crypto.randomUUID) {
+        // Use cryptographically secure random UUID
+        return 'session_' + window.crypto.randomUUID() + '_' + Date.now();
+      } else {
+        // Fallback for older browsers
+        return 'session_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+      }
     },
 
     // Get or create session ID
@@ -235,4 +253,3 @@
   window.veloWebTracker.trackPageView = analyticsTracker.trackPageView;
 
 })();
-
